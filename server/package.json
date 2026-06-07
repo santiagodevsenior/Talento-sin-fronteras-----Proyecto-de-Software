@@ -1,0 +1,45 @@
+{
+  "name": "tsf-server",
+  "version": "1.0.0",
+  "description": "Backend API - Talento Sin Frontera",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest --coverage --coverageThreshold='{\"global\":{\"lines\":85}}'",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "express-validator": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.13",
+    "pg": "^8.11.5",
+    "sequelize": "^6.37.3",
+    "socket.io": "^4.7.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "controllers/**/*.js",
+      "middleware/**/*.js",
+      "models/**/*.js"
+    ],
+    "coverageReporters": ["text", "lcov"]
+  }
+}

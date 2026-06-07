@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # ── PostgreSQL ─────────────────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: tsf-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: talento_sin_frontera
+      POSTGRES_USER: tsf_user
+      POSTGRES_PASSWORD: tsf_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tsf_user -d talento_sin_frontera"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Backend (Node.js + Express) ────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tsf-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: talento_sin_frontera
+      DB_USER: tsf_user
+      DB_PASSWORD: tsf_password
+      JWT_SECRET: ${JWT_SECRET:-dev_secret_change_in_prod}
+      JWT_EXPIRES_IN: 24h
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USER: ${MAIL_USER}
+      MAIL_PASS: ${MAIL_PASS}
+      CLIENT_URL: http://localhost:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  # ── Frontend (React) ───────────────────────────────────────
+  frontend:
+    image: node:20-alpine
+    container_name: tsf-frontend
+    working_dir: /app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://localhost:5000/api
+      REACT_APP_SOCKET_URL: http://localhost:5000
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

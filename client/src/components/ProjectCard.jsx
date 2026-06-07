@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Avatar, CategoryBadge, Stars } from '../ui';
+import { Avatar, CategoryBadge, Stars } from './ui';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 

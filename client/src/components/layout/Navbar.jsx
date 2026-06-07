@@ -60,12 +60,12 @@ export default function Navbar() {
               <span style={{ fontSize: 20 }}>🔔</span>
               {unread > 0 && <span style={S.notifDot} />}
             </div>
-            <div style={{ position: 'relative' }} onMouseLeave={() => setMenuOpen(false)}>
-              <div style={{ cursor: 'pointer' }} onMouseEnter={() => setMenuOpen(true)}>
+            <div style={{ position: 'relative' }}>
+  <div style={{ cursor: 'pointer' }} onClick={() => setMenuOpen(!menuOpen)}>
                 <Avatar src={user.avatar} name={user.name} size={36} />
               </div>
               {menuOpen && (
-                <div style={{
+                 <div onMouseLeave={() => setMenuOpen(false)} style={{
                   position: 'absolute', top: '100%', right: 0, marginTop: 8,
                   background: 'var(--surface)', border: '1px solid var(--border)',
                   borderRadius: 12, minWidth: 180, overflow: 'hidden', boxShadow: 'var(--shadow)',

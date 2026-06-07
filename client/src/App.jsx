@@ -15,6 +15,7 @@ import Mentors from './pages/Mentors';
 import MentorDashboard from './pages/MentorDashboard';
 import Chat from './pages/Chat';
 import Notifications from './pages/Notifications';
+import Settings from './pages/Settings';
 
 function AppRoutes() {
   return (
@@ -34,6 +35,7 @@ function AppRoutes() {
         <Route path="/mentor/dashboard" element={<PrivateRoute><MentorDashboard /></PrivateRoute>} />
         <Route path="/chat/:userId" element={<PrivateRoute><Chat /></PrivateRoute>} />
         <Route path="/notifications" element={<PrivateRoute><Notifications /></PrivateRoute>} />
+        <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
 
         {/* 404 */}
         <Route path="*" element={

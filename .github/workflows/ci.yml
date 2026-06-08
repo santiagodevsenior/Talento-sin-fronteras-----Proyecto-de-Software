@@ -11,21 +11,6 @@ jobs:
     name: Backend — Lint & Test
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_DB: talento_sin_frontera_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres123
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - uses: actions/checkout@v4
 
@@ -46,11 +31,7 @@ jobs:
       - name: Run tests
         env:
           NODE_ENV: test
-          DB_HOST: localhost
-          DB_PORT: 5432
-          DB_NAME: talento_sin_frontera_test
-          DB_USER: postgres
-          DB_PASSWORD: postgres123
+          USE_SQLITE: true
           JWT_SECRET: test_secret_ci_123
           JWT_EXPIRES_IN: 1h
           CLIENT_URL: http://localhost:3000

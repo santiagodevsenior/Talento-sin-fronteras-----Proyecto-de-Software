@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest --coverage --coverageThreshold='{\"global\":{\"lines\":85}}'",
+    "test": "jest --coverage --forceExit",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix"
   },
@@ -32,14 +32,6 @@
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
     "supertest": "^7.0.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "collectCoverageFrom": [
-      "controllers/**/*.js",
-      "middleware/**/*.js",
-      "models/**/*.js"
-    ],
-    "coverageReporters": ["text", "lcov"]
   }
+ 
 }

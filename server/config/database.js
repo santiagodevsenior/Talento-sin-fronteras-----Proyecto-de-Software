@@ -1,6 +1,10 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
+if (process.env.NODE_ENV === 'test') {
+  require('dotenv').config({ path: '.env.test', override: true });
+}
+
 const sequelize = process.env.DB_URL
   ? new Sequelize(process.env.DB_URL, {
       dialect: 'postgres',

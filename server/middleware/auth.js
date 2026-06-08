@@ -48,7 +48,9 @@ const optionalAuth = async (req, res, next) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = await User.findByPk(decoded.id);
     }
-  } catch (_) {}
+} catch (_err) {
+  // Token inválido o ausente — continuar sin usuario
+}
   next();
 };
 

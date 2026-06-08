@@ -1,7 +1,7 @@
 /**
  * @description Global error handler — catches all unhandled errors from routes
  */
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, _next) => {
   console.error(`[${new Date().toISOString()}] ${err.stack}`);
 
   // Sequelize validation errors

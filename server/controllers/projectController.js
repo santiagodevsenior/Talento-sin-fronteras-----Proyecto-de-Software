@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const { Op } = require('sequelize');
-const { Project, User, Comment, Notification } = require('../models');
+const { Project, User, Comment } = require('../models');
 const { uploadToCloudinary, deleteFromCloudinary } = require('../middleware/upload');
 
 const CATEGORIES = ['music','visual_arts','theater','dance','photography','design','writing','modeling','other'];

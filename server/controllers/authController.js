@@ -49,8 +49,9 @@ exports.login = async (req, res) => {
   if (!user.isActive) return res.status(403).json({ success: false, message: 'Account deactivated' });
 
   const token = signToken(user.id);
-  const { password: _pw, ...safeUser } = user.toJSON();
-  res.json({ success: true, token, user: safeUser });
+ const safeUser = user.toJSON();
+delete safeUser.password;
+res.json({ success: true, token, user: safeUser });
 };
 
 /**

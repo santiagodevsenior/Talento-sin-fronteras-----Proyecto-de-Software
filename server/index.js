@@ -118,6 +118,12 @@ const start = async () => {
   server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 };
 
-start().catch((err) => { console.error('Failed to start server:', err); process.exit(1); });
+if (require.main === module) {
+  start().catch((err) => { console.error('Failed to start server:', err); process.exit(1); });
+}
 
-module.exports = { app, server };
+if (require.main === module) {
+  start();
+}
+
+module.exports = { app, server, start };

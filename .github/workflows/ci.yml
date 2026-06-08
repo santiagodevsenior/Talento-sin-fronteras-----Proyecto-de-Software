@@ -21,6 +21,12 @@ jobs:
           cache: 'npm'
           cache-dependency-path: server/package-lock.json
 
+      - name: Start PostgreSQL
+        run: |
+          sudo systemctl start postgresql
+          sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres123';"
+          sudo -u postgres psql -c "CREATE DATABASE talento_sin_frontera_test;"
+
       - name: Install dependencies
         run: cd server && npm install
 
@@ -31,7 +37,11 @@ jobs:
       - name: Run tests
         env:
           NODE_ENV: test
-          USE_SQLITE: true
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: talento_sin_frontera_test
+          DB_USER: postgres
+          DB_PASSWORD: postgres123
           JWT_SECRET: test_secret_ci_123
           JWT_EXPIRES_IN: 1h
           CLIENT_URL: http://localhost:3000
@@ -57,6 +67,4 @@ jobs:
       - name: Build
         env:
           REACT_APP_API_URL: https://talento-sin-fronteras-proyecto-de.onrender.com/api
-          REACT_APP_SOCKET_URL: https://talento-sin-fronteras-proyecto-de.onrender.com
-          CI: false
-        run: cd client && npm run build
+          REACT_APP_SOCKET_URL: https://talento-sin-fronteras-proyect

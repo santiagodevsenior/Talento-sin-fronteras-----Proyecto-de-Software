@@ -63,7 +63,21 @@ io.on('connection', (socket) => {
 });
 
 // ── Express Middleware ─────────────────────────────────────
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', credentials: true }));
+app.use(cors({
+  origin: (origin, callback) => {
+    const allowed = [
+      process.env.CLIENT_URL,
+      'http://localhost:3000',
+    ];
+    // Permitir cualquier URL de Vercel
+    if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
